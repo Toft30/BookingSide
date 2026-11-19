@@ -3,6 +3,11 @@ package no.hvl.dat108.booking.controller;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import no.hvl.dat108.booking.dto.Registreringsskjema;
+import no.hvl.dat108.booking.repository.BrukarRepository;
+import no.hvl.dat108.booking.service.PassordService;
+import no.hvl.dat108.booking.model.Brukar;
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +19,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller 
 public class BrukarController {
+
+    private final BrukarRepository brukarRepository;
+    private final PassordService passordService; 
     
+    public BrukarController(BrukarRepository brukarRepository, PassordService passordService) {
+        this.brukarRepository = brukarRepository;
+        this.passordService = passordService;
+    }
+
     @GetMapping("/registrer")
     public String visRegistrering(Model model){
         model.addAttribute("Skjema", new Registreringsskjema());
@@ -44,9 +57,15 @@ public class BrukarController {
 
     @PostMapping("/login")
     public String loginn(@RequestParam String epost, @RequestParam String passord, HttpSession session, RedirectAttributes ra){
-        
+        Optional<Brukar> brukarOpt = brukarRepository.findByEpost(epost);
 
+        if (brukarOpt.isEmpty() || !passordService.erKorrektPassord(passord, brukarOpt.get().getSalt(), brukarOpt.get().getPassordHash())){
+            ra.addFlashAttribute("feilmelding", "Ugyldig e-post eller passord");
+            return "redirect:/login";
+        }
 
+        session.setMaxInactiveInterval(1800);
+        session.setAttribute("inloggaBrukar", brukarOpt.get());
 
         return "redirect/booking";
     }
