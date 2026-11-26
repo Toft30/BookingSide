@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrer deg – Grupperom</title>
+    <link rel="stylesheet" th:href="@{/css/stil.css}">
+</head>
+<body>
+<main class="kort">
+    <h1>Registrer deg</h1>
+
+    <!--
+        th:object knyter skjemaet til modellattributtet "skjema".
+        *{...} og th:field="*{namn}" viser då til skjema.namn.
+        th:field set både name, id og value (så det brukaren skreiv blir verande ved feil).
+    -->
+    <form th:action="@{/registrer}" th:object="${skjema}" method="post" novalidate>
+
+        <label for="namn">Namn</label>
+        <input type="text" th:field="*{namn}" th:errorclass="feil">
+        <p class="feilmelding" th:if="${#fields.hasErrors('namn')}" th:errors="*{namn}"></p>
+
+        <label for="epost">E-post</label>
+        <input type="email" th:field="*{epost}" th:errorclass="feil">
+        <p class="feilmelding" th:if="${#fields.hasErrors('epost')}" th:errors="*{epost}"></p>
+
+        <label for="passord">Passord</label>
+        <!-- Passord skal ikkje sendast tilbake til nettlesaren, difor value="" -->
+        <input type="password" id="passord" name="passord" value=""
+               th:classappend="${#fields.hasErrors('passord')} ? 'feil'">
+        <p class="feilmelding" th:if="${#fields.hasErrors('passord')}" th:errors="*{passord}"></p>
+
+        <label for="passordRepetert">Gjenta passord</label>
+        <input type="password" id="passordRepetert" name="passordRepetert" value=""
+               th:classappend="${#fields.hasErrors('passordRepetert')} ? 'feil'">
+        <p class="feilmelding" th:if="${#fields.hasErrors('passordRepetert')}" th:errors="*{passordRepetert}"></p>
+
+        <button type="submit">Registrer</button>
+    </form>
+
+    <p>Har du allereie brukar? <a th:href="@{/login}">Logg inn</a></p>
+</main>
+</body>
+</html>

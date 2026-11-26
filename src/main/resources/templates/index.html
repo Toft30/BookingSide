@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="nn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Grupperom</title>
+    <link rel="stylesheet" th:href="@{/css/stil.css}">
+</head>
+<body>
+<header>
+    <span>Grupperom-booking</span>
+    <span>
+        <span th:text="${brukar.namn}">Namn</span>
+        <span class="merke" th:if="${brukar.erAdmin()}">admin</span>
+        <!-- Utlogging er eit skjema med POST, ikkje ei lenke (sjå BrukarController) -->
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit">Logg ut</button>
+        </form>
+    </span>
+</header>
+<main class="kort">
+    <h1 th:text="|Hei, ${brukar.namn}!|">Hei!</h1>
+    <p>Du er logga inn. Bookingoversikta kjem i fase 3.</p>
+</main>
+</body>
+</html>
