@@ -27,7 +27,7 @@ public class PassordService{
         byte[] saltBytes = HexFormat.of().parseHex(salt);
 
         try {
-            PBEKeySpec spec = new PBEKeySpec(passordChars, saltBytes, 1000, 256);
+            PBEKeySpec spec = new PBEKeySpec(passordChars, saltBytes, 65526, 256);
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             byte[] hash = skf.generateSecret(spec).getEncoded();
             return HexFormat.of().formatHex(hash);

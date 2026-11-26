@@ -8,13 +8,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 
-/**
- * Køyrer FØR kontrollarmetoden for alle stiar som er registrerte i WebConfig.
- * Er brukaren ikkje logga inn, blir han send til innloggingssida.
- *
- * Alternativet hadde vore å sjekke sesjonen i kvar einaste kontrollarmetode,
- * men då er det lett å gløyme éin. Her ligg sjekken på éin stad.
- */
 public class InnloggingInterceptor implements HandlerInterceptor {
 
     @Override

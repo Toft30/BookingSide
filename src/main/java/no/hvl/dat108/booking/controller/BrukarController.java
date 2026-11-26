@@ -19,12 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
-/**
- * Registrering, innlogging og utlogging.
- *
- * Alle POST-metodane som lukkast, svarar med redirect (PRG: Post/Redirect/Get).
- * Då vil ikkje F5 i nettlesaren sende skjemaet på nytt.
- */
 @Controller
 public class BrukarController {
 
